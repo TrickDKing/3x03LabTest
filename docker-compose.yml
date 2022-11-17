@@ -36,6 +36,8 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client:ro
       - jenkins-data:/var/jenkins_home
+      - ~/.gitconfig:/etc/gitconfig
+  
     ports:
       - "8080:8080"
       - "50000:50000"
