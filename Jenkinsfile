@@ -8,7 +8,7 @@ pipeline {
             } 
         } 
                 
-               /* stage('OWASP DependencyCheck') {
+               stage('OWASP DependencyCheck') {
 			steps {
 				dependencyCheck additionalArguments: '--format HTML --format XML --disableNodeJS --disableYarnAudit --nodeAuditSkipDevDependencies', odcInstallation: 'Default'
 			}
@@ -17,7 +17,7 @@ pipeline {
            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         }
       }
-		}*/
+		}
          
         /*stage('Code Quality Check via SonarQube') { 
                         steps { 
