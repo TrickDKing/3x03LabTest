@@ -1,0 +1,70 @@
+version: "3.9"
+services:
+  docker:
+    container_name: dind
+    image: docker:dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+      VIRTUAL_PORT: 2376
+    ports:
+      - "2376:2376"
+      - "3000:3000"
+      - "5000:5000"
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+    networks:
+      jenkins:
+        aliases:
+          - docker
+    restart: always
+
+  jenkins:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    container_name: jenkins
+    restart: always
+    depends_on:
+      - docker
+    networks:
+      jenkins:
+        aliases:
+          - jenkins
+    user: root
+    volumes:
+      - jenkins-docker-certs:/certs/client:ro
+      - jenkins-data:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
+      
+  sonarqube:
+    container_name: sonarqube
+    image: sonarqube:latest
+    restart: always
+    user: root
+    environment: 
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    ports:
+      - "9000:9000"
+    depends_on:
+      - docker
+    networks:
+      jenkins:
+        aliases:
+          - jenkins
+
+networks:
+  jenkins:
+    name: jenkins
+    driver: bridge
+
+volumes:
+  jenkins-docker-certs:
+  jenkins-data:
