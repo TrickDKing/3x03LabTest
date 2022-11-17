@@ -7,7 +7,7 @@ session_start();
             // User Input
            $password = $_POST['password'];
             
-            $errorMsg = checkPassword($password);
+            checkPassword($password);
         }
     }
     
@@ -51,11 +51,6 @@ foreach ($lines as $value) {
                                 <button type="submit" name="submit">Submit</button>
                         </div>
                 </form>
-                
-                <div>
-                  <?php echo $errorMsg; ?>
-                </div>
-                
                 
     </div>
     
