@@ -35,7 +35,7 @@ pipeline {
                         recordIssues enabledForFailure: true, tool: sonarQube() 
                 } 
     } */
-                stage('Integration UI Test') {
+              /*  stage('Integration UI Test') {
                         parallel {
                                 stage('Deploy') {
                                         agent any
@@ -63,7 +63,7 @@ pipeline {
                                         }
                                 }
                         }
-                }
+                }*/
     } 
         
 }   
